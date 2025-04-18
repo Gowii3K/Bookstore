@@ -4,10 +4,9 @@
  */
 package com.mycompany.bookstore.resource;
 
-import com.mycompany.bookstore.dao.BookDAO;
+import com.mycompany.bookstore.dao.CustomerDAO;
 
-import com.mycompany.bookstore.model.Book;
-
+import com.mycompany.bookstore.model.Customer;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -25,36 +24,36 @@ import javax.ws.rs.core.Response;
  *
  * @author Gowtham Adithya
  */
-@Path("books")
-public class BookResource {
+@Path("customers")
+public class CustomerResource {
 
-    private static BookDAO bookDAO = new BookDAO();
+    private static CustomerDAO customerDAO = new CustomerDAO();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Book> getAllBooks() {
+    public List<Customer> getAllCustomers() {
 
-        return bookDAO.getAllBooks();
+        return customerDAO.getAllCustomers();
 
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getStudentById(@PathParam("id") String id) {
+    public Response getCustomersById(@PathParam("id") int id) {
 
-        Book book = bookDAO.getStudentById(id);
-        return Response.ok(book).build();
+        Customer customer = customerDAO.getCustomersById(id);
+        return Response.ok(customer).build();
 
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createBook(Book book) {
+    public Response createCustomer(Customer customer) {
 
-        Book createdBook = bookDAO.createBook(book);
-        return Response.ok(createdBook).build();
+        Customer createdCustomer = customerDAO.createCustomer(customer);
+        return Response.ok(customer).build();
 
     }
 
@@ -62,22 +61,22 @@ public class BookResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateBook(@PathParam("id") String id, Book book) {
+    public Response updateCustomer(@PathParam("id") int id, Customer customer) {
         System.out.println("lols");
 
-        Book updatedBook = bookDAO.updateBook(id, book);
-
-        return Response.ok(updatedBook).build();
+        Customer updatedCustomer = customerDAO.updateCustomer(id, customer);
+        return Response.ok(customer).build();
 
     }
 
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteStudent(@PathParam("id") String id) {
+    public Response deleteCustomer(@PathParam("id") int id) {
+        System.out.println("lols");
 
-        Book book = bookDAO.deleteBook(id);
-        return Response.ok(book).build();
+        Customer customer = customerDAO.deleteCustomer(id);
+        return Response.ok(customer).build();
 
     }
 

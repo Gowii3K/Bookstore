@@ -7,8 +7,15 @@ com\mycompany\bookstore\resource\BookResource.class
 com\mycompany\bookstore\BookStoreApplication.class
 com\mycompany\bookstore\exception\mapper\AuthorNotFoundExceptionMapper.class
 com\mycompany\bookstore\TestResource.class
+com\mycompany\bookstore\dao\CustomerDAO.class
 com\mycompany\bookstore\exception\mapper\BookNotFoundExceptionMapper.class
 com\mycompany\bookstore\exception\mapper\InvalidInputExceptionMapper.class
 com\mycompany\bookstore\exception\AuthorNotFoundException.class
+com\mycompany\bookstore\exception\mapper\CustomerNotFoundExceptionMapper.class
 com\mycompany\bookstore\model\Book.class
 com\mycompany\bookstore\resources\JavaEE8Resource.class
+com\mycompany\bookstore\dao\BookDAO.class
+com\mycompany\bookstore\model\Customer.class
+com\mycompany\bookstore\resource\CustomerResource.class
+com\mycompany\bookstore\dao\AuthorDAO.class
+com\mycompany\bookstore\exception\CustomerNotFoundException.class
