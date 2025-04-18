@@ -1,0 +1,14 @@
+com\mycompany\bookstore\JAXRSConfiguration.class
+com\mycompany\bookstore\exception\BookNotFoundException.class
+com\mycompany\bookstore\exception\InvalidInputException.class
+com\mycompany\bookstore\model\Author.class
+com\mycompany\bookstore\resource\AuthorResource.class
+com\mycompany\bookstore\resource\BookResource.class
+com\mycompany\bookstore\BookStoreApplication.class
+com\mycompany\bookstore\exception\mapper\AuthorNotFoundExceptionMapper.class
+com\mycompany\bookstore\TestResource.class
+com\mycompany\bookstore\exception\mapper\BookNotFoundExceptionMapper.class
+com\mycompany\bookstore\exception\mapper\InvalidInputExceptionMapper.class
+com\mycompany\bookstore\exception\AuthorNotFoundException.class
+com\mycompany\bookstore\model\Book.class
+com\mycompany\bookstore\resources\JavaEE8Resource.class
