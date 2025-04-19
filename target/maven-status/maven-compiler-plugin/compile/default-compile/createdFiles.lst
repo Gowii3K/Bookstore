@@ -7,6 +7,7 @@ com\mycompany\bookstore\dao\CustomerDAO.class
 com\mycompany\bookstore\exception\mapper\InvalidInputExceptionMapper.class
 com\mycompany\bookstore\model\Customer.class
 com\mycompany\bookstore\resource\CustomerResource.class
+com\mycompany\bookstore\resource\OrderResource.class
 com\mycompany\bookstore\JAXRSConfiguration.class
 com\mycompany\bookstore\exception\BookNotFoundException.class
 com\mycompany\bookstore\model\Author.class
@@ -15,6 +16,7 @@ com\mycompany\bookstore\exception\mapper\CartNotFoundExceptionMapper.class
 com\mycompany\bookstore\exception\mapper\AuthorNotFoundExceptionMapper.class
 com\mycompany\bookstore\model\Cart.class
 com\mycompany\bookstore\TestResource.class
+com\mycompany\bookstore\dao\OrderDAO.class
 com\mycompany\bookstore\exception\mapper\BookNotFoundExceptionMapper.class
 com\mycompany\bookstore\exception\AuthorNotFoundException.class
 com\mycompany\bookstore\exception\mapper\CustomerNotFoundExceptionMapper.class
@@ -23,4 +25,7 @@ com\mycompany\bookstore\resources\JavaEE8Resource.class
 com\mycompany\bookstore\dao\BookDAO.class
 com\mycompany\bookstore\dao\CartDAO.class
 com\mycompany\bookstore\dao\AuthorDAO.class
+com\mycompany\bookstore\exception\mapper\OutOfStockExceptionMapper.class
+com\mycompany\bookstore\exception\OutOfStockException.class
 com\mycompany\bookstore\exception\CustomerNotFoundException.class
+com\mycompany\bookstore\model\Order.class

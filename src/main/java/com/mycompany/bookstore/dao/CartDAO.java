@@ -6,6 +6,8 @@ package com.mycompany.bookstore.dao;
 
 import com.mycompany.bookstore.exception.CartNotFoundException;
 import com.mycompany.bookstore.exception.InvalidInputException;
+import com.mycompany.bookstore.exception.OutOfStockException;
+import com.mycompany.bookstore.model.Book;
 import com.mycompany.bookstore.model.Cart;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +20,7 @@ public class CartDAO {
 
     // customer Id and cart
     private static Map<Integer, Cart> cartMap = new ConcurrentHashMap<>();
+    private static BookDAO bookDAO = new BookDAO();
 
     static {
 
@@ -47,12 +50,18 @@ public class CartDAO {
         Map<Integer, Integer> newItems = cart.getCartItems();
 
         for (Integer bookId : newItems.keySet()) {
+            Book book = bookDAO.getBookById(bookId);
+
             int quantity = newItems.get(bookId);
+            if (book.getStock() < quantity) {
+                throw new OutOfStockException("Request Book with ID " + bookId + "is not available in the request Quantity");
+            }
             if (oldItems.get(bookId) == null) {
                 oldItems.put(bookId, quantity);
             } else {
                 oldItems.put(bookId, oldItems.get(bookId) + quantity);
             }
+            book.setStock(book.getStock()-quantity);
         }
         cartMap.put(id, customerCart);
         return customerCart;
@@ -63,42 +72,36 @@ public class CartDAO {
         if (cartMap.containsKey(id)) {
             return cartMap.get(id);
         }
-        throw new CartNotFoundException("Cart Does Not Exist For This User Yet");
- 
+        throw new CartNotFoundException("No Active Cart For this User");
+
     }
-    
-    
-     public Cart updateItemInCart(int customerId,int bookId,int quantity){
-         
-         Cart customerCart= getCart(customerId);
-         Map<Integer, Integer> cartItems = customerCart.getCartItems();
-         if(cartItems.containsKey(bookId)){
-             
-             cartItems.put(bookId, quantity);
-             return customerCart;
-             
-         }
-         
-         throw new InvalidInputException("Book does not exist in Cart");
-         
-         
-         
-        
-         
-        
-        
-        
+
+    public void clearCart(int id) {
+        cartMap.remove(id);
     }
-    
-    public Cart deleteItemFromCart(int customerId, int bookId){
-        
-        Cart cart= getCart(customerId);
+
+    public Cart updateItemInCart(int customerId, int bookId, int quantity) {
+
+        Cart customerCart = getCart(customerId);
+        Map<Integer, Integer> cartItems = customerCart.getCartItems();
+        if (cartItems.containsKey(bookId)) {
+
+            cartItems.put(bookId, quantity);
+            return customerCart;
+
+        }
+
+        throw new InvalidInputException("Book does not exist in Cart");
+
+    }
+
+    public Cart deleteItemFromCart(int customerId, int bookId) {
+
+        Cart cart = getCart(customerId);
         Map<Integer, Integer> cartItems = cart.getCartItems();
         cartItems.remove(bookId);
         return cart;
-        
-        
-        
+
     }
 
 }
