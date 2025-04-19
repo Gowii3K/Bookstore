@@ -4,7 +4,7 @@
  */
 package com.mycompany.bookstore.exception.mapper;
 
-import com.mycompany.bookstore.exception.AuthorNotFoundException;
+import com.mycompany.bookstore.exception.CartNotFoundException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -15,13 +15,12 @@ import javax.ws.rs.ext.Provider;
  */
 
 @Provider
-public class AuthorNotFoundExceptionMapper implements ExceptionMapper<AuthorNotFoundException>{
-    
-     @Override
-    public Response toResponse(AuthorNotFoundException e) {
-        return Response.status(Response.Status.NOT_FOUND).
+public class CartNotFoundExceptionMapper implements ExceptionMapper<CartNotFoundException>{
+
+    @Override
+    public Response toResponse(CartNotFoundException e) {
+         return Response.status(Response.Status.NOT_FOUND).
                 entity(e.getMessage()).build();
-               
     }
     
 }

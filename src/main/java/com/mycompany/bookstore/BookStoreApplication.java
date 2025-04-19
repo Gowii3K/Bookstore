@@ -6,10 +6,12 @@ package com.mycompany.bookstore;
 
 import com.mycompany.bookstore.exception.mapper.AuthorNotFoundExceptionMapper;
 import com.mycompany.bookstore.exception.mapper.BookNotFoundExceptionMapper;
+import com.mycompany.bookstore.exception.mapper.CartNotFoundExceptionMapper;
 import com.mycompany.bookstore.exception.mapper.CustomerNotFoundExceptionMapper;
 import com.mycompany.bookstore.exception.mapper.InvalidInputExceptionMapper;
 import com.mycompany.bookstore.resource.AuthorResource;
 import com.mycompany.bookstore.resource.BookResource;
+import com.mycompany.bookstore.resource.CartResource;
 import com.mycompany.bookstore.resource.CustomerResource;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,10 +33,12 @@ public class BookStoreApplication extends Application {
         classes.add(BookResource.class);
         classes.add(AuthorResource.class);
         classes.add(CustomerResource.class);
+        classes.add(CartResource.class);
         classes.add(AuthorNotFoundExceptionMapper.class);
         classes.add(BookNotFoundExceptionMapper.class);
         classes.add(CustomerNotFoundExceptionMapper.class);
         classes.add(InvalidInputExceptionMapper.class);
+        classes.add(CartNotFoundExceptionMapper.class);
         return classes;
     }
 

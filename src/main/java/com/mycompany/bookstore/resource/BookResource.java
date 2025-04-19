@@ -4,6 +4,7 @@
  */
 package com.mycompany.bookstore.resource;
 
+import com.mycompany.bookstore.dao.AuthorDAO;
 import com.mycompany.bookstore.dao.BookDAO;
 
 import com.mycompany.bookstore.model.Book;
@@ -29,6 +30,7 @@ import javax.ws.rs.core.Response;
 public class BookResource {
 
     private static BookDAO bookDAO = new BookDAO();
+    private static AuthorDAO authorDAO= new AuthorDAO();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -41,9 +43,9 @@ public class BookResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getStudentById(@PathParam("id") String id) {
+    public Response getStudentById(@PathParam("id") int id) {
 
-        Book book = bookDAO.getStudentById(id);
+        Book book = bookDAO.getBookById(id);
         return Response.ok(book).build();
 
     }
@@ -53,6 +55,7 @@ public class BookResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createBook(Book book) {
 
+        authorDAO.getAuthorById(book.getAuthorId());
         Book createdBook = bookDAO.createBook(book);
         return Response.ok(createdBook).build();
 
@@ -62,9 +65,11 @@ public class BookResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateBook(@PathParam("id") String id, Book book) {
+    public Response updateBook(@PathParam("id") int id, Book book) {
         System.out.println("lols");
-
+        Book existingBook=bookDAO.getBookById(id);
+        authorDAO.getAuthorById(existingBook.getAuthorId());
+        authorDAO.getAuthorById(book.getAuthorId());
         Book updatedBook = bookDAO.updateBook(id, book);
 
         return Response.ok(updatedBook).build();
@@ -74,7 +79,7 @@ public class BookResource {
     @DELETE
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteStudent(@PathParam("id") String id) {
+    public Response deleteStudent(@PathParam("id") int id) {
 
         Book book = bookDAO.deleteBook(id);
         return Response.ok(book).build();

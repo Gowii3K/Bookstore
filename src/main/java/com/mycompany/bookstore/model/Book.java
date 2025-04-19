@@ -10,7 +10,7 @@ package com.mycompany.bookstore.model;
  */
 public class Book {
     
-    private String bookId;
+    private int bookId;
     private String title;
     private int authorId;
     private int publicationYear;
@@ -22,7 +22,7 @@ public class Book {
     public Book(){}
   
 
-    public Book(String bookId, String title, int authorId, int publicationYear, String isbn, int price, int stock) {
+    public Book(int bookId, String title, int authorId, int publicationYear, String isbn, int price, int stock) {
         this.bookId = bookId;
         this.title = title;
         this.authorId = authorId;
@@ -32,11 +32,11 @@ public class Book {
         this.stock = stock;
     }
     
-     public String getBookId() {
+     public int getBookId() {
         return bookId;
     }
 
-    public void setBookId(String bookId) {
+    public void setBookId(int bookId) {
         this.bookId = bookId;
     }
 

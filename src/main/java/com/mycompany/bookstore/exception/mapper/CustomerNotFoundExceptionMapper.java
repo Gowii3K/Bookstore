@@ -7,11 +7,14 @@ package com.mycompany.bookstore.exception.mapper;
 import com.mycompany.bookstore.exception.CustomerNotFoundException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
 /**
  *
  * @author Gowtham Adithya
  */
+
+@Provider
 public class CustomerNotFoundExceptionMapper implements ExceptionMapper<CustomerNotFoundException>{
 
     @Override
