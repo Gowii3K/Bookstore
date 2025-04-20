@@ -72,7 +72,7 @@ public class BookDAO {
             throw new InvalidInputException("Publication Year cannot be in the future");
         }
 
-        int id= idCounter.incrementAndGet();
+        int id = idCounter.incrementAndGet();
         book.setBookId(id);
         bookMap.put(id, book);
         return book;
@@ -85,44 +85,43 @@ public class BookDAO {
         Book existingBook = bookMap.get(id);
         if (existingBook == null) {
             throw new BookNotFoundException("Could Not Find Book With ID: " + id);
-        } else {
-
-            if (book.getAuthorId() != 0) {
-                existingBook.setAuthorId(book.getAuthorId());
-            }
-            if (book.getPrice() != 0) {
-                if (book.getPrice() > 1) {
-                    existingBook.setPrice(book.getPrice());
-                } else {
-                    throw new InvalidInputException("Price must be greater than 0");
-                }
-            }
-            int year = Year.now().getValue();
-            if (book.getPublicationYear() != 0 && book.getPublicationYear() > year) {
-                existingBook.setPublicationYear(book.getPublicationYear());
-            }
-            if (book.getStock() != 0) {
-                if (book.getStock() > 1) {
-                    existingBook.setStock(book.getStock());
-                } else {
-                    throw new InvalidInputException("Stock must be greater than 0");
-                }
-            }
-            if (book.getIsbn() != null || !book.getIsbn().trim().isEmpty()) {
-                existingBook.setIsbn(book.getIsbn());
-            } else {
-                throw new InvalidInputException("ISBN cannot be empty");
-            }
-            if (book.getTitle() != null || !book.getIsbn().trim().isEmpty()) {
-                existingBook.setTitle(book.getTitle());
-            } else {
-                throw new InvalidInputException("Title cannot be empty");
-            }
-
-            bookMap.put(id, existingBook);
-            return existingBook;
-
         }
+
+        existingBook.setAuthorId(book.getAuthorId());
+
+        if (book.getPrice() > 0) {
+            existingBook.setPrice(book.getPrice());
+        } else {
+            throw new InvalidInputException("Price must be greater than 0");
+        }
+
+        int year = Year.now().getValue();
+        if (book.getPublicationYear() != 0 && book.getPublicationYear() <= year) {
+            existingBook.setPublicationYear(book.getPublicationYear());
+        }
+        else{
+            throw new InvalidInputException("Publication year cannot be in the future");
+        }
+
+        if (book.getStock() > 1) {
+            existingBook.setStock(book.getStock());
+        } else {
+            throw new InvalidInputException("Stock must be greater than 0");
+        }
+
+        if (book.getIsbn() != null && !book.getIsbn().trim().isEmpty()) {
+            existingBook.setIsbn(book.getIsbn());
+        } else {
+            throw new InvalidInputException("ISBN cannot be empty");
+        }
+        if (book.getTitle() != null && !book.getTitle().trim().isEmpty()) {
+            existingBook.setTitle(book.getTitle());
+        } else {
+            throw new InvalidInputException("Title cannot be empty");
+        }
+
+        bookMap.put(id, existingBook);
+        return existingBook;
 
     }
 

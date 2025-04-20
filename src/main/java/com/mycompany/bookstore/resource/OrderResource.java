@@ -6,6 +6,7 @@ package com.mycompany.bookstore.resource;
 
 import com.mycompany.bookstore.dao.BookDAO;
 import com.mycompany.bookstore.dao.CartDAO;
+import com.mycompany.bookstore.dao.CustomerDAO;
 import com.mycompany.bookstore.dao.OrderDAO;
 import com.mycompany.bookstore.model.Cart;
 import com.mycompany.bookstore.model.Order;
@@ -31,25 +32,35 @@ public class OrderResource {
     
     private static OrderDAO orderDAO= new OrderDAO();
     private static CartDAO cartDAO = new CartDAO();
+    private static CustomerDAO customerDAO = new CustomerDAO();
     
     
     
     @POST
-    @Path("items")
     @Produces(MediaType.APPLICATION_JSON)
     public Response createOrder(@PathParam("customerId") int customerId) {
+        
+        customerDAO.getCustomersById(customerId);
+        
         
         Cart cart= cartDAO.getCart(customerId);
         Order order=orderDAO.createOrder(customerId,cart);
         cartDAO.clearCart(customerId);
-        return Response.ok(order).build();
+        return Response.status(Response.Status.CREATED).entity(order).build();
+
     }
     
     
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllCustomerOrders(@PathParam("customerId") int customerId){
+        customerDAO.getCustomersById(customerId);
         List<Order> orders=orderDAO.getAllCustomerOrders(customerId);
+        if(orders==null){
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("No orders found for Customer with ID "+customerId)
+                    .build();
+        }
         return Response.ok(orders).build();
         
     }
@@ -57,8 +68,14 @@ public class OrderResource {
     @GET
     @Path("{orderId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllCustomerOrders(@PathParam("customerId") int customerId,@PathParam("orderId") int orderId ){
+    public Response getCustomerOrder(@PathParam("customerId") int customerId,@PathParam("orderId") int orderId ){
+        customerDAO.getCustomersById(customerId);
         Order order= orderDAO.getOrderById(customerId,orderId);
+        if(order==null){
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("Order with Id "+orderId+" does not exist")
+                    .build();
+        }
         return Response.ok(order).build();
         
         

@@ -58,11 +58,10 @@ public class AuthorDAO {
 
     }
 
-    public Author createBook(Author author) {
+    public Author createAuthor(Author author) {
 
-        if (author.getAuthorName() == null) {
+        if (author.getAuthorName() == null || author.getAuthorName().trim().isEmpty()) {
             throw new InvalidInputException("Author name cannot be empty");
-
         }
 
         author.setAuthorId(idCounter.incrementAndGet());
@@ -71,7 +70,7 @@ public class AuthorDAO {
 
     }
 
-    public Author updateBook(int id, Author author) {
+    public Author updateAuthor(int id, Author author) {
         System.out.println("lols");
 
         Author existingAuthor = authorMap.get(id);
@@ -79,9 +78,11 @@ public class AuthorDAO {
             throw new AuthorNotFoundException("Could Not Find Author With ID: " + id);
         } else {
 
-            if (author.getAuthorName() != null) {
-                existingAuthor.setAuthorName(author.getAuthorName());
+            if (author.getAuthorName() == null || author.getAuthorName().trim().isEmpty()) {
+                throw new InvalidInputException("Author name cannot be empty");
             }
+
+            existingAuthor.setAuthorName(author.getAuthorName());
 
             authorMap.put(id, existingAuthor);
             return existingAuthor;

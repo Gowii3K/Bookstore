@@ -30,7 +30,7 @@ import javax.ws.rs.core.Response;
 public class BookResource {
 
     private static BookDAO bookDAO = new BookDAO();
-    private static AuthorDAO authorDAO= new AuthorDAO();
+    private static AuthorDAO authorDAO = new AuthorDAO();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -57,7 +57,7 @@ public class BookResource {
 
         authorDAO.getAuthorById(book.getAuthorId());
         Book createdBook = bookDAO.createBook(book);
-        return Response.ok(createdBook).build();
+        return Response.status(Response.Status.CREATED).entity(createdBook).build();
 
     }
 
@@ -67,9 +67,12 @@ public class BookResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateBook(@PathParam("id") int id, Book book) {
         System.out.println("lols");
-        Book existingBook=bookDAO.getBookById(id);
-        authorDAO.getAuthorById(existingBook.getAuthorId());
+        Book existingBook = bookDAO.getBookById(id);
+
         authorDAO.getAuthorById(book.getAuthorId());
+
+        authorDAO.getAuthorById(existingBook.getAuthorId());
+
         Book updatedBook = bookDAO.updateBook(id, book);
 
         return Response.ok(updatedBook).build();
@@ -82,7 +85,7 @@ public class BookResource {
     public Response deleteStudent(@PathParam("id") int id) {
 
         Book book = bookDAO.deleteBook(id);
-        return Response.ok(book).build();
+        return Response.noContent().build();
 
     }
 

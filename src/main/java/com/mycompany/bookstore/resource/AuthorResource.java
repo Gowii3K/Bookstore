@@ -51,9 +51,10 @@ public class AuthorResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createBook(Author author) {
+        
 
-        Author createdAuthor = authorDAO.createBook(author);
-        return Response.ok(createdAuthor).build();
+        Author createdAuthor = authorDAO.createAuthor(author);
+        return Response.status(Response.Status.CREATED).entity(createdAuthor).build();
 
     }
 
@@ -64,7 +65,7 @@ public class AuthorResource {
     public Response updateBook(@PathParam("id") int id, Author author) {
         System.out.println("lols");
 
-        Author existingAuthor = authorDAO.updateBook(id, author);
+        Author existingAuthor = authorDAO.updateAuthor(id, author);
         return Response.ok(existingAuthor).build();
 
     }
@@ -76,7 +77,7 @@ public class AuthorResource {
         System.out.println("lols");
 
         Author author = authorDAO.deleteAuthor(id);
-        return Response.ok(author).build();
+        return Response.noContent().build();
 
     }
 

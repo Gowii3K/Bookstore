@@ -5,6 +5,7 @@
 package com.mycompany.bookstore.resource;
 
 import com.mycompany.bookstore.dao.CartDAO;
+import com.mycompany.bookstore.dao.CustomerDAO;
 import com.mycompany.bookstore.model.Cart;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -25,56 +26,55 @@ import javax.ws.rs.core.Response;
 public class CartResource {
 
     private static CartDAO cartDAO = new CartDAO();
-
+    private static CustomerDAO customerDAO= new CustomerDAO();
+            
 
     @POST
     @Path("items")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addItemToCart(@PathParam("customerId") int customerId, Cart cart) {
+        
+        customerDAO.getCustomersById(customerId);
 
         Cart createdCart = cartDAO.addItemToCart(customerId, cart);
-        return Response.ok(createdCart).build();
+        return Response.status(Response.Status.CREATED).entity(createdCart).build();
 
     }
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCart(@PathParam("customerId")int customerId){
+    public Response getCart(@PathParam("customerId") int customerId) {
         
-        Cart cart= cartDAO.getCart(customerId);
-        
+        customerDAO.getCustomersById(customerId);
+
+        Cart cart = cartDAO.getCart(customerId);
+
         return Response.ok(cart).build();
-    
+
     }
-    
-    
+
     @PUT
     @Path("items/{bookId}")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateItemInCart(@PathParam("customerId")int customerId, @PathParam("bookId") int bookId,int quantity){
-        
-        Cart updatedCart= cartDAO.updateItemInCart(customerId,bookId,quantity);
-        
+    public Response updateItemInCart(@PathParam("customerId") int customerId, @PathParam("bookId") int bookId, int quantity) {
+
+        Cart updatedCart = cartDAO.updateItemInCart(customerId, bookId, quantity);
+
         return Response.ok(updatedCart).build();
-        
+
     }
-    
-    
-    
-    
+
     @DELETE
     @Path("items/{bookId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteItemFromCart(@PathParam("customerId")int customerId, @PathParam("bookId") int bookId){
-        
-        Cart cart= cartDAO.deleteItemFromCart(customerId,bookId);
-        
-        return Response.ok(cart).build();
-    
+    public Response deleteItemFromCart(@PathParam("customerId") int customerId, @PathParam("bookId") int bookId) {
+
+        Cart cart = cartDAO.deleteItemFromCart(customerId, bookId);
+
+        return Response.noContent().build();
+
     }
-    
-  
 
 }

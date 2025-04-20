@@ -15,6 +15,7 @@ public class Cart {
     
     private int customerId;
     private Map<Integer,Integer> cartItems = new ConcurrentHashMap<>();
+    private double totalPrice;
 
     public Cart(int customerId) {
         this.customerId=customerId;
@@ -38,6 +39,15 @@ public class Cart {
     public void setCartItems(Map<Integer, Integer> cartItems) {
         this.cartItems = cartItems;
     }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+    
     
     
     

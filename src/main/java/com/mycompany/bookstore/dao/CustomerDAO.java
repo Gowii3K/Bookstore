@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
 /**
  *
  * @author Gowtham Adithya
@@ -24,9 +23,9 @@ public class CustomerDAO {
     private static AtomicInteger idCounter = new AtomicInteger(0);
 
     static {
-        Customer c1 = new Customer(idCounter.incrementAndGet(), "gowii");
-        Customer c2 = new Customer(idCounter.incrementAndGet(), "bowii");
-        Customer c3 = new Customer(idCounter.incrementAndGet(), "lowii");
+        Customer c1 = new Customer(idCounter.incrementAndGet(), "dowii");
+        Customer c2 = new Customer(idCounter.incrementAndGet(), "sowii");
+        Customer c3 = new Customer(idCounter.incrementAndGet(), "wowii");
 
         customerMap.put(c1.getCustomerId(), c1);
         customerMap.put(c2.getCustomerId(), c2);
@@ -52,9 +51,8 @@ public class CustomerDAO {
 
     public Customer createCustomer(Customer customer) {
 
-        if (customer.getCustomerName() == null) {
-            throw new InvalidInputException("Author name cannot be empty");
-
+        if (customer.getCustomerName() == null || customer.getCustomerName().trim().isEmpty()) {
+            throw new InvalidInputException("Customer name cannot be empty");
         }
 
         customer.setCustomerId(idCounter.incrementAndGet());
@@ -70,12 +68,14 @@ public class CustomerDAO {
             throw new CustomerNotFoundException("Could Not Find Customer With ID: " + id);
         } else {
 
-            if (customer.getCustomerName() != null) {
-                existingcCustomer.setCustomerName(customer.getCustomerName());
+            if (customer.getCustomerName() == null || customer.getCustomerName().trim().isEmpty()) {
+                throw new InvalidInputException("Customer name cannot be empty");
             }
 
+            existingcCustomer.setCustomerName(customer.getCustomerName());
+
             customerMap.put(id, existingcCustomer);
-            return customer;
+            return existingcCustomer;
 
         }
 

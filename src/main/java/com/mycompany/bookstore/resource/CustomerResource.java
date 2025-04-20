@@ -53,7 +53,7 @@ public class CustomerResource {
     public Response createCustomer(Customer customer) {
 
         Customer createdCustomer = customerDAO.createCustomer(customer);
-        return Response.ok(customer).build();
+        return Response.status(Response.Status.CREATED).entity(createdCustomer).build();
 
     }
 
@@ -65,7 +65,7 @@ public class CustomerResource {
         System.out.println("lols");
 
         Customer updatedCustomer = customerDAO.updateCustomer(id, customer);
-        return Response.ok(customer).build();
+        return Response.ok(updatedCustomer).build();
 
     }
 
@@ -76,7 +76,7 @@ public class CustomerResource {
         System.out.println("lols");
 
         Customer customer = customerDAO.deleteCustomer(id);
-        return Response.ok(customer).build();
+        return Response.noContent().build();
 
     }
 

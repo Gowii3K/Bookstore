@@ -4,6 +4,7 @@
  */
 package com.mycompany.bookstore.dao;
 
+import com.mycompany.bookstore.exception.BookNotFoundException;
 import com.mycompany.bookstore.exception.CartNotFoundException;
 import com.mycompany.bookstore.exception.InvalidInputException;
 import com.mycompany.bookstore.exception.OutOfStockException;
@@ -31,6 +32,8 @@ public class CartDAO {
         cart1.getCartItems().put(2, 20);
         cart2.getCartItems().put(1, 10);
         cart2.getCartItems().put(2, 20);
+        cart1.setTotalPrice(updateCartTotalPrice(cart1.getCartItems()));
+        cart2.setTotalPrice(updateCartTotalPrice(cart2.getCartItems()));
 
         cartMap.put(cart1.getCustomerId(), cart1);
         cartMap.put(cart2.getCustomerId(), cart2);
@@ -54,16 +57,17 @@ public class CartDAO {
 
             int quantity = newItems.get(bookId);
             if (book.getStock() < quantity) {
-                throw new OutOfStockException("Request Book with ID " + bookId + "is not available in the request Quantity");
+                throw new OutOfStockException("Request Book with ID " + bookId + " is not available in the request Quantity");
             }
             if (oldItems.get(bookId) == null) {
                 oldItems.put(bookId, quantity);
             } else {
                 oldItems.put(bookId, oldItems.get(bookId) + quantity);
             }
-            book.setStock(book.getStock()-quantity);
+            book.setStock(book.getStock() - quantity);
         }
         cartMap.put(id, customerCart);
+        customerCart.setTotalPrice(updateCartTotalPrice(customerCart.getCartItems()));
         return customerCart;
 
     }
@@ -86,7 +90,20 @@ public class CartDAO {
         Map<Integer, Integer> cartItems = customerCart.getCartItems();
         if (cartItems.containsKey(bookId)) {
 
+            Book book = bookDAO.getBookById(bookId);
+
+            int oldQuantity = cartItems.get(bookId);
+            int difference = quantity - oldQuantity;
+
+            if (difference > 0 && book.getStock() < difference) {
+                throw new OutOfStockException("Not enough stock to update quantity");
+            }
+
+            book.setStock(book.getStock() - difference);
+
             cartItems.put(bookId, quantity);
+            customerCart.setTotalPrice(updateCartTotalPrice(cartItems));
+
             return customerCart;
 
         }
@@ -99,9 +116,34 @@ public class CartDAO {
 
         Cart cart = getCart(customerId);
         Map<Integer, Integer> cartItems = cart.getCartItems();
-        cartItems.remove(bookId);
+        
+
+        if (cartItems.containsKey(bookId)) {
+            try {
+                int quantity = cartItems.get(bookId);
+                Book book = bookDAO.getBookById(bookId);
+                book.setStock(book.getStock() + quantity);
+                cartItems.remove(bookId);
+            } catch (BookNotFoundException e) {
+                cartItems.remove(bookId);
+
+            }
+            cart.setTotalPrice(updateCartTotalPrice(cartItems));
+        } else {
+            throw new InvalidInputException("Book does not exist in Cart");
+
+        }
         return cart;
 
+    }
+
+    private static int updateCartTotalPrice(Map<Integer, Integer> itemList) {
+        int totalPrice = 0;
+        for (Map.Entry<Integer, Integer> entry : itemList.entrySet()) {
+            Book book = bookDAO.getBookById(entry.getKey());
+            totalPrice += book.getPrice() * entry.getValue();
+        }
+        return totalPrice;
     }
 
 }

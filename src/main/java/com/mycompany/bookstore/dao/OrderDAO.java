@@ -4,7 +4,6 @@
  */
 package com.mycompany.bookstore.dao;
 
-import com.mycompany.bookstore.model.Book;
 import com.mycompany.bookstore.model.Cart;
 import com.mycompany.bookstore.model.Order;
 import java.util.ArrayList;
@@ -27,20 +26,11 @@ public class OrderDAO {
 
         Map<Integer, Integer> itemList = cart.getCartItems();
 
-        int totalPrice = 0;
-
-        for (Integer bookId : itemList.keySet()) {
-
-            Book book = bookDAO.getBookById(bookId);
-            int price = book.getPrice();
-            int quanity = itemList.get(bookId);
-            totalPrice += (price * quanity);
-
-        }
+        
 
         int orderId = IdCounter.incrementAndGet();
 
-        Order order = new Order(orderId, customerId, itemList, totalPrice);
+        Order order = new Order(orderId, customerId, itemList, cart.getTotalPrice());
         if(orderMap.containsKey(customerId)){
             orderMap.get(customerId).add(order);
             
