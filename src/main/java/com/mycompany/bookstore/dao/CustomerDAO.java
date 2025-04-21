@@ -23,9 +23,9 @@ public class CustomerDAO {
     private static AtomicInteger idCounter = new AtomicInteger(0);
 
     static {
-        Customer c1 = new Customer(idCounter.incrementAndGet(), "dowii");
-        Customer c2 = new Customer(idCounter.incrementAndGet(), "sowii");
-        Customer c3 = new Customer(idCounter.incrementAndGet(), "wowii");
+        Customer c1 = new Customer(idCounter.incrementAndGet(), "will", "smith", "1@gmail.com", "pass1");
+        Customer c2 = new Customer(idCounter.incrementAndGet(), "henry", "cavill", "2@gmail.com", "pass2");
+        Customer c3 = new Customer(idCounter.incrementAndGet(), "pedro", "pascal", "3@gmail.com", "pass3");
 
         customerMap.put(c1.getCustomerId(), c1);
         customerMap.put(c2.getCustomerId(), c2);
@@ -51,8 +51,17 @@ public class CustomerDAO {
 
     public Customer createCustomer(Customer customer) {
 
-        if (customer.getCustomerName() == null || customer.getCustomerName().trim().isEmpty()) {
-            throw new InvalidInputException("Customer name cannot be empty");
+        if (customer.getFirstName() == null || customer.getFirstName().trim().isEmpty()) {
+            throw new InvalidInputException("First name cannot be empty");
+        }
+        if (customer.getLastName() == null || customer.getLastName().trim().isEmpty()) {
+            throw new InvalidInputException("Last name cannot be empty");
+        }
+        if (customer.getEmail() == null || customer.getEmail().trim().isEmpty()) {
+            throw new InvalidInputException("Email cannot be empty");
+        }
+        if (customer.getPassword() == null || customer.getPassword().trim().isEmpty()) {
+            throw new InvalidInputException("Password cannot be empty");
         }
 
         customer.setCustomerId(idCounter.incrementAndGet());
@@ -68,11 +77,23 @@ public class CustomerDAO {
             throw new CustomerNotFoundException("Could Not Find Customer With ID: " + id);
         } else {
 
-            if (customer.getCustomerName() == null || customer.getCustomerName().trim().isEmpty()) {
-                throw new InvalidInputException("Customer name cannot be empty");
+            if (customer.getFirstName() == null || customer.getFirstName().trim().isEmpty()) {
+                throw new InvalidInputException("First name cannot be empty");
+            }
+            if (customer.getLastName() == null || customer.getLastName().trim().isEmpty()) {
+                throw new InvalidInputException("Last name cannot be empty");
+            }
+            if (customer.getEmail() == null || customer.getEmail().trim().isEmpty()) {
+                throw new InvalidInputException("Email cannot be empty");
+            }
+            if (customer.getPassword() == null || customer.getPassword().trim().isEmpty()) {
+                throw new InvalidInputException("Password cannot be empty");
             }
 
-            existingcCustomer.setCustomerName(customer.getCustomerName());
+            existingcCustomer.setFirstName(customer.getFirstName());
+            existingcCustomer.setLastName(customer.getLastName());
+            existingcCustomer.setEmail(customer.getEmail());
+            existingcCustomer.setPassword(customer.getPassword());
 
             customerMap.put(id, existingcCustomer);
             return existingcCustomer;

@@ -30,9 +30,9 @@ public class AuthorDAO {
     private static AtomicInteger idCounter = new AtomicInteger(0);
 
     static {
-        Author a1 = new Author(idCounter.incrementAndGet(), "gowii");
-        Author a2 = new Author(idCounter.incrementAndGet(), "bowii");
-        Author a3 = new Author(idCounter.incrementAndGet(), "lowii");
+        Author a1 = new Author(idCounter.incrementAndGet(), "john", "smith", "very good author");
+        Author a2 = new Author(idCounter.incrementAndGet(), "robert", "james", "very average author");
+        Author a3 = new Author(idCounter.incrementAndGet(), "will", "affleck", "very nice author");
 
         authorMap.put(a1.getAuthorId(), a1);
         authorMap.put(a2.getAuthorId(), a2);
@@ -60,8 +60,14 @@ public class AuthorDAO {
 
     public Author createAuthor(Author author) {
 
-        if (author.getAuthorName() == null || author.getAuthorName().trim().isEmpty()) {
-            throw new InvalidInputException("Author name cannot be empty");
+        if (author.getFirstName() == null || author.getFirstName().trim().isEmpty()) {
+            throw new InvalidInputException("First name cannot be empty");
+        }
+        if (author.getLastName() == null || author.getLastName().trim().isEmpty()) {
+            throw new InvalidInputException("Last name cannot be empty");
+        }
+        if (author.getBiography() == null || author.getBiography().trim().isEmpty()) {
+            throw new InvalidInputException("Biography name cannot be empty");
         }
 
         author.setAuthorId(idCounter.incrementAndGet());
@@ -78,12 +84,19 @@ public class AuthorDAO {
             throw new AuthorNotFoundException("Could Not Find Author With ID: " + id);
         } else {
 
-            if (author.getAuthorName() == null || author.getAuthorName().trim().isEmpty()) {
-                throw new InvalidInputException("Author name cannot be empty");
+            if (author.getFirstName() == null || author.getFirstName().trim().isEmpty()) {
+                throw new InvalidInputException("First name cannot be empty");
+            }
+            if (author.getLastName() == null || author.getLastName().trim().isEmpty()) {
+                throw new InvalidInputException("Last name cannot be empty");
+            }
+            if (author.getBiography() == null || author.getBiography().trim().isEmpty()) {
+                throw new InvalidInputException("Biography name cannot be empty");
             }
 
-            existingAuthor.setAuthorName(author.getAuthorName());
-
+            existingAuthor.setFirstName(author.getFirstName());
+            existingAuthor.setLastName(author.getLastName());
+            existingAuthor.setBiography(author.getBiography());
             authorMap.put(id, existingAuthor);
             return existingAuthor;
 

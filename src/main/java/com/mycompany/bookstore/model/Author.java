@@ -11,13 +11,18 @@ package com.mycompany.bookstore.model;
 public class Author {
     
     private int authorId;
-    private String authorName;
+    private String firstName;
+    private String lastName;
+    private String biography;
+    
     
     public Author(){}
 
-    public Author(int authorId, String authorName) {
+    public Author(int authorId, String firstName, String lastName, String biography) {
         this.authorId = authorId;
-        this.authorName = authorName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.biography = biography;
     }
 
     public int getAuthorId() {
@@ -28,13 +33,38 @@ public class Author {
         this.authorId = authorId;
     }
 
- 
-    public String getAuthorName() {
-        return authorName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getBiography() {
+        return biography;
+    }
+
+    public void setBiography(String biography) {
+        this.biography = biography;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
     
 }
