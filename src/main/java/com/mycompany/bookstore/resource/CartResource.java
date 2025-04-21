@@ -7,6 +7,7 @@ package com.mycompany.bookstore.resource;
 import com.mycompany.bookstore.dao.CartDAO;
 import com.mycompany.bookstore.dao.CustomerDAO;
 import com.mycompany.bookstore.model.Cart;
+import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -26,15 +27,17 @@ import javax.ws.rs.core.Response;
 public class CartResource {
 
     private static CartDAO cartDAO = new CartDAO();
-    private static CustomerDAO customerDAO= new CustomerDAO();
-            
+    private static CustomerDAO customerDAO = new CustomerDAO();
+    private static final Logger logger = Logger.getLogger(CartResource.class.getName());
 
     @POST
     @Path("items")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response addItemToCart(@PathParam("customerId") int customerId, Cart cart) {
-        
+
+        logger.info("Adding Items to cart");
+
         customerDAO.getCustomersById(customerId);
 
         Cart createdCart = cartDAO.addItemToCart(customerId, cart);
@@ -45,7 +48,9 @@ public class CartResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCart(@PathParam("customerId") int customerId) {
-        
+
+        logger.info("Retrieving Cart of Customer " + customerId);
+
         customerDAO.getCustomersById(customerId);
 
         Cart cart = cartDAO.getCart(customerId);
@@ -70,6 +75,8 @@ public class CartResource {
     @Path("items/{bookId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteItemFromCart(@PathParam("customerId") int customerId, @PathParam("bookId") int bookId) {
+        
+        logger.info("Removing Book "+bookId+" from cart");
 
         Cart cart = cartDAO.deleteItemFromCart(customerId, bookId);
 

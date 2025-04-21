@@ -11,6 +11,7 @@ import com.mycompany.bookstore.dao.OrderDAO;
 import com.mycompany.bookstore.model.Cart;
 import com.mycompany.bookstore.model.Order;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -33,12 +34,16 @@ public class OrderResource {
     private static OrderDAO orderDAO= new OrderDAO();
     private static CartDAO cartDAO = new CartDAO();
     private static CustomerDAO customerDAO = new CustomerDAO();
+        private static final Logger logger = Logger.getLogger(OrderResource.class.getName());
+
     
     
     
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response createOrder(@PathParam("customerId") int customerId) {
+        
+        logger.info("Creating Order from customer "+customerId+" existing cart");
         
         customerDAO.getCustomersById(customerId);
         
@@ -54,6 +59,7 @@ public class OrderResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllCustomerOrders(@PathParam("customerId") int customerId){
+        logger.info("Retreving all Orders from customer "+customerId);
         customerDAO.getCustomersById(customerId);
         List<Order> orders=orderDAO.getAllCustomerOrders(customerId);
         if(orders==null){
@@ -69,6 +75,7 @@ public class OrderResource {
     @Path("{orderId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomerOrder(@PathParam("customerId") int customerId,@PathParam("orderId") int orderId ){
+        logger.info("Retreving Order with ID "+orderId +"from customer "+customerId);
         customerDAO.getCustomersById(customerId);
         Order order= orderDAO.getOrderById(customerId,orderId);
         if(order==null){

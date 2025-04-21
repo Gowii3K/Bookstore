@@ -9,6 +9,7 @@ import com.mycompany.bookstore.dao.AuthorDAO;
 import com.mycompany.bookstore.model.Author;
 
 import java.util.List;
+import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -28,11 +29,12 @@ import javax.ws.rs.core.Response;
 public class AuthorResource {
 
     private static final AuthorDAO authorDAO = new AuthorDAO();
+    private static final Logger logger=Logger.getLogger(AuthorResource.class.getName());
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Author> getAllAuthors() {
-
+        logger.info("Retrieving All Authors");
         return authorDAO.getAllAuthors();
 
     }
@@ -42,6 +44,7 @@ public class AuthorResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAuthorById(@PathParam("id") int id) {
 
+        logger.info("Retrieving Author With ID "+id);
         Author author = authorDAO.getAuthorById(id);
         return Response.ok(author).build();
 
@@ -52,7 +55,7 @@ public class AuthorResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createBook(Author author) {
         
-
+        logger.info("Creating new Author");
         Author createdAuthor = authorDAO.createAuthor(author);
         return Response.status(Response.Status.CREATED).entity(createdAuthor).build();
 
@@ -63,8 +66,8 @@ public class AuthorResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateBook(@PathParam("id") int id, Author author) {
-        System.out.println("lols");
 
+        logger.info("Updating Author With ID "+id);
         Author existingAuthor = authorDAO.updateAuthor(id, author);
         return Response.ok(existingAuthor).build();
 
@@ -74,7 +77,7 @@ public class AuthorResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteAuthor(@PathParam("id") int id) {
-        System.out.println("lols");
+        logger.info("Deleting Author With ID "+id);
 
         Author author = authorDAO.deleteAuthor(id);
         return Response.noContent().build();

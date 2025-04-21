@@ -77,7 +77,6 @@ public class AuthorDAO {
     }
 
     public Author updateAuthor(int id, Author author) {
-        System.out.println("lols");
 
         Author existingAuthor = authorMap.get(id);
         if (existingAuthor == null) {
@@ -105,7 +104,6 @@ public class AuthorDAO {
     }
 
     public Author deleteAuthor(@PathParam("id") int id) {
-        System.out.println("lols");
 
         Author author = authorMap.remove(id);
         if (author == null) {

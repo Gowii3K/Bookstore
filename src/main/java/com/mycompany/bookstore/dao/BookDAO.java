@@ -80,7 +80,6 @@ public class BookDAO {
     }
 
     public Book updateBook(int id, Book book) {
-        System.out.println("lols");
 
         Book existingBook = bookMap.get(id);
         if (existingBook == null) {
@@ -126,7 +125,6 @@ public class BookDAO {
     }
 
     public Book deleteBook(int id) {
-        System.out.println("lols");
 
         Book book = bookMap.remove(id);
         if (book == null) {

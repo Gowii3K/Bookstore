@@ -103,7 +103,6 @@ public class CustomerDAO {
     }
 
     public Customer deleteCustomer(int id) {
-        System.out.println("lols");
 
         Customer customer = customerMap.remove(id);
         if (customer == null) {

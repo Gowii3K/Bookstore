@@ -8,6 +8,7 @@ import com.mycompany.bookstore.dao.CustomerDAO;
 
 import com.mycompany.bookstore.model.Customer;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -28,11 +29,13 @@ import javax.ws.rs.core.Response;
 public class CustomerResource {
 
     private static CustomerDAO customerDAO = new CustomerDAO();
+    private static final Logger logger = Logger.getLogger(CustomerResource.class.getName());
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Customer> getAllCustomers() {
 
+        logger.info("Retrieving All Author ");
         return customerDAO.getAllCustomers();
 
     }
@@ -42,6 +45,7 @@ public class CustomerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomersById(@PathParam("id") int id) {
 
+        logger.info("Retrieving Author With ID "+id);
         Customer customer = customerDAO.getCustomersById(id);
         return Response.ok(customer).build();
 
@@ -51,6 +55,8 @@ public class CustomerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createCustomer(Customer customer) {
+        
+        logger.info("Creating new Author");
 
         Customer createdCustomer = customerDAO.createCustomer(customer);
         return Response.status(Response.Status.CREATED).entity(createdCustomer).build();
@@ -62,8 +68,8 @@ public class CustomerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateCustomer(@PathParam("id") int id, Customer customer) {
-        System.out.println("lols");
-
+        
+        logger.info("Updating Author With ID "+id);
         Customer updatedCustomer = customerDAO.updateCustomer(id, customer);
         return Response.ok(updatedCustomer).build();
 
@@ -73,7 +79,8 @@ public class CustomerResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteCustomer(@PathParam("id") int id) {
-        System.out.println("lols");
+        
+        logger.info("Deleting Author With ID "+id);
 
         Customer customer = customerDAO.deleteCustomer(id);
         return Response.noContent().build();

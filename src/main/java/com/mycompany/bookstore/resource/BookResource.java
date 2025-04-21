@@ -10,6 +10,7 @@ import com.mycompany.bookstore.dao.BookDAO;
 import com.mycompany.bookstore.model.Book;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -31,6 +32,7 @@ public class BookResource {
 
     private static BookDAO bookDAO = new BookDAO();
     private static AuthorDAO authorDAO = new AuthorDAO();
+    private static final Logger logger = Logger.getLogger(BookResource.class.getName());
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -44,6 +46,9 @@ public class BookResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStudentById(@PathParam("id") int id) {
+        
+        logger.info("Retrieving All Books");
+        
 
         Book book = bookDAO.getBookById(id);
         return Response.ok(book).build();
@@ -55,6 +60,7 @@ public class BookResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createBook(Book book) {
 
+        logger.info("Creating new Book");
         authorDAO.getAuthorById(book.getAuthorId());
         Book createdBook = bookDAO.createBook(book);
         return Response.status(Response.Status.CREATED).entity(createdBook).build();
@@ -66,7 +72,7 @@ public class BookResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateBook(@PathParam("id") int id, Book book) {
-        System.out.println("lols");
+        logger.info("Updating Book With ID "+id);
         Book existingBook = bookDAO.getBookById(id);
 
         authorDAO.getAuthorById(book.getAuthorId());
@@ -83,7 +89,7 @@ public class BookResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteStudent(@PathParam("id") int id) {
-
+        logger.info("Deleting Book With ID "+id);
         Book book = bookDAO.deleteBook(id);
         return Response.noContent().build();
 
